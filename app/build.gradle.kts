@@ -56,7 +56,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "app.gamenative"
+        applicationId = "com.ludashi.benchmark"
 
         minSdk = 26
 
