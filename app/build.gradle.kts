@@ -68,13 +68,11 @@ android {
         versionName = "1.2.1"
 
         buildConfigField("boolean", "GOLD", "false")
-        fun secret(name: String) =
-            project.findProperty(name) as String? ?: System.getenv(name) ?: ""
+        buildConfigField("String", "POSTHOG_API_KEY", "\"none\"")
+        buildConfigField("String", "POSTHOG_HOST", "\"https://us.i.posthog.com\"")
+        buildConfigField("String", "STEAMGRIDDB_API_KEY", "\"none\"")
+        buildConfigField("String", "CLOUD_PROJECT_NUMBER", "\"none\"")
 
-        buildConfigField("String", "POSTHOG_API_KEY", "\"${secret("POSTHOG_API_KEY")}\"")
-        buildConfigField("String", "POSTHOG_HOST",  "\"${secret("POSTHOG_HOST")}\"")
-        buildConfigField("String", "STEAMGRIDDB_API_KEY", "\"${secret("STEAMGRIDDB_API_KEY")}\"")
-        buildConfigField("String", "CLOUD_PROJECT_NUMBER", "\"${secret("CLOUD_PROJECT_NUMBER")}\"")
         val iconValue = "@mipmap/ic_launcher"
         val iconRoundValue = "@mipmap/ic_launcher_round"
         manifestPlaceholders.putAll(
@@ -355,62 +353,6 @@ android {
     tasks.register("prepareModernXrPayload") {
         dependsOn("verifyModernXrPayload")
     }
-
-
-    // externalNativeBuild {
-    //   cmake {
-    //       path = file("src/main/cpp/asurfacerenderer/CMakeLists.txt")
-    //   }
-    // }
-
-    // externalNativeBuild {
-    //    cmake {
-    //        path = file("src/main/cpp/evshim/CMakeLists.txt")
-    //    }
-    // }
-
-    // xconnectorpatch is shipped as a prebuilt jniLib because our APK packaging flow
-    // does not rebuild native libraries during release creation.
-    // externalNativeBuild {
-    //     cmake {
-    //         path = file("src/main/cpp/xconnectorpatch/CMakeLists.txt")
-    //         version = "3.22.1"
-    //     }
-    // }
-
-    // build extras needed in libwinlator_bionic.so
-    // externalNativeBuild {
-    //     cmake {
-    //         path = file("src/main/cpp/extras/CMakeLists.txt")   // the file shown above
-    //         version = "3.22.1"
-    //     }
-    // }
-
-    // cmake on release builds a proot that fails to process ld-2.31.so
-    // externalNativeBuild {
-    //     cmake {
-    //         path = file("src/main/cpp/CMakeLists.txt")
-    //         version = "3.22.1"
-    //     }
-    // }
-
-    // Meta Quest immersive launch mode's native OpenXR module. Same convention as the
-    // other native modules above: not part of the default build (native libs ship as
-    // prebuilt .so files in jniLibs/) — temporarily uncomment to build+test locally,
-    // then copy the resulting libxrimmersive.so into jniLibs/arm64-v8a/ and re-comment.
-    // externalNativeBuild {
-    //     cmake {
-    //         path = file("src/main/cpp/xrimmersive/CMakeLists.txt")
-    //         version = "3.22.1"
-    //     }
-    // }
-
-    // (For now) Uncomment for LeakCanary to work.
-    // configurations {
-    //     debugImplementation {
-    //         exclude(group = "junit", module = "junit")
-    //     }
-    // }
 }
 
 dependencies {
@@ -480,9 +422,6 @@ dependencies {
 
     // Room Database
     implementation(libs.bundles.room)
-
-    // Memory Leak Detection
-    // debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-8")
 
     // Testing
     androidTestImplementation(platform(libs.androidx.compose.bom))
